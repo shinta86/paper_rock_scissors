@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<script>
+    let choices = ['Paper', 'Rock', 'Scissors'];
+
+    function computerPlay() {
+        return choices[Math.floor(Math.random() * choices.length)];
+    }
+
+    function playRound(computerSelection, playerSelection) {
+        let result;
+        if (computerSelection == playerSelection) {
+            result = 'draw' //'Draw! You both chose ' + computerSelection;
+        } else if (computerSelection == 'rock' && playerSelection == 'scissors') {
+            result = 'lose'
+        } else if (computerSelection == 'rock' && playerSelection == 'scissors') {
+            result = 'lose'
+        } else if (computerSelection == 'scissors' && playerSelection == 'paper') {
+            result = 'lose'
+        } else if (computerSelection == 'paper' && playerSelection == 'rock') {
+            result = 'lose'
+        } else {
+            result = 'win' //
+        }
+        return result
+    }
+
+    function game(totalRounds) {
+        let playerScore = 0;
+        let computerScore = 0;
+
+        for (currentRound = 0; currentRound != totalRounds; currentRound++) {
+            let playerSelection = 'rock' //prompt('Choose from: ' + choices.join(', ')).toLowerCase()
+            let computerSelection = computerPlay().toLowerCase();
+            let result = playRound(computerSelection, playerSelection);
+
+            if (result == 'draw') {
+                console.log('Round ' + currentRound + ' draw! You both chose ' + computerSelection)
+            } else if (result == 'win') {
+                playerScore++;
+                console.log('Round ' + currentRound + ' win! ' + playerSelection + ' beats ' + computerSelection + '.')
+            } else {
+                computerScore++;
+                console.log('Round ' + currentRound + ' lose! ' + computerSelection + ' beats ' + playerSelection + '.')
+            }
+        }
+        if (playerScore > computerScore) {
+            console.log('Game Over! You Win! ' + playerScore + ' vs ' + computerScore)
+        } else if (playerScore < computerScore) {
+            console.log('Game Over! You Lose! ' + playerScore + ' vs ' + computerScore)
+        } else {
+            console.log('Game Over! Draw! ' + playerScore + ' vs ' + computerScore)
+        }
+    }
+    game(5)
+</script>
+
+</html>
