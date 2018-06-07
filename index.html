@@ -1,14 +1,29 @@
 <!DOCTYPE html>
 <html>
-<script>
-    let choices = ['Paper', 'Rock', 'Scissors'];
+<title>Rock, Paper, Scissors</title>
 
+<body>
+    <div>
+        <h1>Rock, Paper, Scissors</h1>
+        <p>What is your choice?</p>
+        <div id='buttons'>
+            <button id='rock' class='button'>Rock</button>
+            <button id='paper' class='button'>Paper</button>
+            <button id='scissors' class='button'>Scissors</button>
+        </div>
+        <div id='results'>
+            <p></p>
+        </div>
+</body>
+
+<script>
     function computerPlay() {
         return choices[Math.floor(Math.random() * choices.length)];
     }
 
-    function playRound(computerSelection, playerSelection) {
+    function calcWinner(computerSelection, playerSelection) {
         let result;
+        style = 'margin: 20px';
         if (computerSelection == playerSelection) {
             result = 'draw' //'Draw! You both chose ' + computerSelection;
         } else if (computerSelection == 'rock' && playerSelection == 'scissors') {
@@ -25,34 +40,45 @@
         return result
     }
 
-    function game(totalRounds) {
-        let playerScore = 0;
-        let computerScore = 0;
-
-        for (currentRound = 0; currentRound != totalRounds; currentRound++) {
-            let playerSelection = 'rock' //prompt('Choose from: ' + choices.join(', ')).toLowerCase()
-            let computerSelection = computerPlay().toLowerCase();
-            let result = playRound(computerSelection, playerSelection);
-
+    function playRound(playerSelection) {
+        let computerSelection = computerPlay();
+        let result = calcWinner(computerSelection, playerSelection);
+        let resultsDiv = document.querySelector('#results p');
+        if (currentRound != totalRounds) {
             if (result == 'draw') {
-                console.log('Round ' + currentRound + ' draw! You both chose ' + computerSelection)
-            } else if (result == 'win') {
+                resultsDiv.textContent = 'Round ' + currentRound + ' draw! You both chose ' + computerSelection
+            } else if (result == 'win ') {
                 playerScore++;
-                console.log('Round ' + currentRound + ' win! ' + playerSelection + ' beats ' + computerSelection + '.')
+                resultsDiv.textContent = 'Round ' + currentRound + ' win! ' + playerSelection + ' beats ' +
+                    computerSelection + '.';
             } else {
                 computerScore++;
-                console.log('Round ' + currentRound + ' lose! ' + computerSelection + ' beats ' + playerSelection + '.')
+                resultsDiv.textContent = 'Round ' + currentRound + ' lose! ' + computerSelection + ' beats ' +
+                    playerSelection + '.';
             }
-        }
-        if (playerScore > computerScore) {
-            console.log('Game Over! You Win! ' + playerScore + ' vs ' + computerScore)
-        } else if (playerScore < computerScore) {
-            console.log('Game Over! You Lose! ' + playerScore + ' vs ' + computerScore)
+            currentRound++
         } else {
-            console.log('Game Over! Draw! ' + playerScore + ' vs ' + computerScore)
+            if (playerScore > computerScore) {
+                resultsDiv.textContent = 'Game Over! You Win! ' + playerScore + ' vs ' + computerScore;
+            } else if (playerScore < computerScore) {
+                resultsDiv.textContent =
+                    'Game Over! You Lose! ' + playerScore + ' vs ' + computerScore;
+            } else {
+                resultsDiv.textContent = 'Game Over! Draw! ' + playerScore + ' vs ' + computerScore;
+            }
+            currentRound = 0;
         }
     }
-    game(5)
+
+    const totalRounds = 5;
+    let currentRound = 0;
+    let playerScore = 0;
+    let computerScore = 0;
+    const choices = ['paper', 'rock', 'scissors'];
+    const buttons = document.querySelectorAll('.button');
+    buttons.forEach(button => {
+        button.addEventListener('click', e => playRound(button.id))
+    });
 </script>
 
 </html>
